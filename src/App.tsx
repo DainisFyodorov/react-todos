@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import './App.css';
-import TodoTable from './components/TodoTable';
-import NewTodoForm from './components/NewTodoForm';
+import { TodoTable } from './components/TodoTable';
+import { NewTodoForm } from './components/NewTodoForm';
 
-function App() {
+export const App = () => {
 
   const [showAddTodoForm, setShowAddTodoForm] = useState(false);
 
@@ -15,24 +15,20 @@ function App() {
   ]
   )
 
-  const addTodo = (description, assigned) => {
-    let rowNumber = 0;
-    if(todos.length > 0) {
-      rowNumber = todos[todos.length - 1].rowNumber + 1;
-    } else {
-      rowNumber = 1;
-    }
+  const addTodo = (description: string, assigned: string) => {
+    const lastTodo = todos[todos.length - 1];
+    const rowNumber = lastTodo ? lastTodo.rowNumber + 1 : 1;
 
     const newTodo = {
-      rowNumber: rowNumber, 
-      rowDescription: description, 
+      rowNumber,
+      rowDescription: description,
       rowAssigned: assigned
     };
 
-    setTodos(todos => [...todos, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
   }
 
-  const deleteTodo = (deleteTodoRowNumber) => {
+  const deleteTodo = (deleteTodoRowNumber: number) => {
     let filtered = todos.filter(function (value) {
       return value.rowNumber !== deleteTodoRowNumber;
     });
@@ -58,5 +54,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
